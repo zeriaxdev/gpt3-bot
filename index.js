@@ -94,8 +94,8 @@ client.on("messageCreate", async (message) => {
         });
 
         client.channels.cache
-          .get("937266376098332712")
-          .send(`<@${message.author.id}> just sweared!`);
+          .get("937364789234139196")
+          .send(`<@${message.author.id}> just swore!`);
       });
   }
 
