@@ -68,6 +68,7 @@ module.exports = {
             .setFooter(`u/${author} from r/${subreddit}`);
 
           sentMessage.edit({
+            content: "✅ Done!",
             embeds: [funnyEmbed],
           });
         })
@@ -76,6 +77,9 @@ module.exports = {
 
           if (error.code === "ENOTFOUND") {
             sentMessage.edit(":x: Could not connect to reddit.com.");
+          } else {
+            sentMessage.edit(":x: Error:\n```\n" + err + "```");
+            console.error(err);
           }
         });
     });

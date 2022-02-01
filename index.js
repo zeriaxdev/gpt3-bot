@@ -1,25 +1,30 @@
 const Discord = require("discord.js");
 const config = require("./config.json");
 const fs = require("fs");
-const rest = require("./include/rest.js");
-const { Rest } = require("./include/rest.js");
 const dotenv = require("dotenv").config();
 const fetch = (...args) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
-const mongoose = require("mongoose");
+// const mongoose = require("mongoose");
 const filter = require("leo-profanity");
+// const { REST } = require("@discordjs/rest");
+// const { Routes } = require("discord-api-types/v9");
 
 const client = new Discord.Client({
   intents: [Discord.Intents.FLAGS.GUILDS, Discord.Intents.FLAGS.GUILD_MESSAGES],
 });
 client.commands = new Discord.Collection();
 
+// const commands = [];
+// const clientId = "925019273326395442";
+// const rest = new REST({ version: "9" }).setToken(config.token);
+
 // Take commands
 const commandFiles = fs
   .readdirSync("./commands")
   .filter((file) => file.endsWith(".js"));
+
 for (const file of commandFiles) {
-  const command = require(`./commands/` + file);
+  const command = require(`./commands/${file}`);
   client.commands.set(command.name, command);
 }
 
@@ -49,108 +54,45 @@ client.on("ready", () => {
     });
 });
 
-// mongoose
-//   .connect(process.env.MONGODB_SRV, {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-//   })
-//   .then(() => {
-//     console.log("Connected to the DiscordJS Database!");
-//   })
-//   .catch((err) => {
-//     console.log(err);
-//   });
-
 // On Message
 client.on("messageCreate", async (message) => {
   // const profileModel = require("./models/profileSchema.js");
-  const badWords = filter.list();
+  // const badWords = filter.list();
 
-  const badWordsFind = !!badWords.find((word) => {
-    const regex = new RegExp(`\\b${word}\\b`, "i"); // if the phrase is not alphanumerical,
-    return regex.test(message.content);
-  });
+  // const badWordsFind = !!badWords.find((word) => {
+  //   const regex = new RegExp(`\\b${word}\\b`, "i"); // if the phrase is not alphanumerical,
+  //   return regex.test(message.content);
+  // });
 
-  if (badWordsFind) {
-    const ip = `${Math.floor(Math.random() * 255)}.${
-      Math.floor(Math.random() * 255) + 1
-    }.${Math.floor(Math.random() * 255) + 1}.${
-      Math.floor(Math.random() * 255) + 1
-    }`;
+  // if (badWordsFind) {
+  //   const ip = `${Math.floor(Math.random() * 255)}.${
+  //     Math.floor(Math.random() * 255) + 1
+  //   }.${Math.floor(Math.random() * 255) + 1}.${
+  //     Math.floor(Math.random() * 255) + 1
+  //   }`;
 
-    fetch(`http://ip-api.com/json/${ip}`)
-      .then((res) => res.json())
-      .then((json) => {
-        let ipEmbed = new Discord.MessageEmbed()
-          .setTitle("Swearing is not allowed!")
-          .setURL(`https://ipinfo.io/${ip}`)
-          .setColor("RED")
-          .setDescription(
-            `**Your message**: \`${message.content}\`\nDon't use bad words!\n\n**${json.city}**, **${json.country}**\n${json.query}`
-          )
-          .setImage(`https://countryflagsapi.com/png/${json.countryCode}`);
-        message.author.send({
-          embeds: [ipEmbed],
-        });
+  //   fetch(`http://ip-api.com/json/${ip}`)
+  //     .then((res) => res.json())
+  //     .then((json) => {
+  //       let ipEmbed = new Discord.MessageEmbed()
+  //         .setTitle("Swearing is not allowed!")
+  //         .setURL(`https://ipinfo.io/${ip}`)
+  //         .setColor("RED")
+  //         .setDescription(
+  //           `**Your message**: \`${message.content}\`\nDon't use bad words!\n\n**${json.city}**, **${json.country}**\n${json.query}`
+  //         )
+  //         .setImage(`https://countryflagsapi.com/png/${json.countryCode}`);
+  //       message.author.send({
+  //         embeds: [ipEmbed],
+  //       });
 
-        client.channels.cache
-          .get("937364789234139196")
-          .send(`<@${message.author.id}> just swore!`);
-      });
-  }
+  //       client.channels.cache
+  //         .get("937364789234139196")
+  //         .send(`<@${message.author.id}> just swore!`);
+  //     });
+  // }
 
   const user = message.mentions.members.first() || message.member;
-
-  // let profileData;
-  // try {
-  //   profileData = await profileModel.findOne({
-  //     userID: message.author.id,
-  //   });
-  //   if (!profileData) {
-  //     let profile = await profileModel.create({
-  //       name: message.author.tag,
-  //       userID: message.author.id,
-  //       serverName: message.guild.name,
-  //       serverID: message.guild.id,
-  //       coins: 0,
-  //       warns: 0,
-  //     });
-  //     profile.save();
-  //   }
-  // } catch (err) {
-  //   console.log(err);
-  // }
-
-  // let profileDataUser;
-  // try {
-  //   profileDataUser = await profileModel.findOne({
-  //     userID: user.user.id,
-  //   });
-  //   if (!profileDataUser) {
-  //     let profileUser = await profileModel.create({
-  //       name: user.user.username + user.user.discriminator,
-  //       userID: user.id,
-  //       serverName: message.guild.name,
-  //       serverID: message.guild.id,
-  //       coins: 0,
-  //       warns: 0,
-  //     });
-  //     profileUser.save();
-  //   }
-  // } catch (err) {
-  //   console.log(err);
-  // }
-
-  // if (!profileData) {
-  //   let profileUser = await profileModel.create({
-  //     name: user.user.username + user.user.discriminator,
-  //     userID: user.id,
-  //     serverName: message.guild.name,
-  //     serverID: message.guild.id,
-  //     coins: 0,
-  //   });
-  //   profileUser.save();
-  // }
 
   if (!message.content.startsWith(config.prefix) || message.author.bot) return;
 
@@ -210,20 +152,14 @@ client.on("messageCreate", async (message) => {
       command.execute(
         message,
         args,
-        rest,
         client
-        // profileData,
-        // profileDataUser
+        // user
       );
     } catch (error) {
       console.error(error);
-      message.reply("there was an error trying to execute that command!");
+      message.reply(":x: Error:\n```\n" + err + "```");
     }
   }
 });
 
-client.on("typingStart", (user) => {
-  console.log(`${user.user.username} is typing`);
-});
-
-client.login(config.token);
+client.login(process.env.DISCORD_TOKEN);
