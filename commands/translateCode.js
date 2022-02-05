@@ -60,7 +60,7 @@ module.exports = {
           );
 
         sentMessage.edit({
-          content: "✅ Done!",
+          content: null,
           embeds: [trEmbed],
         });
       } catch (err) {

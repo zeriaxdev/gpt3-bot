@@ -47,12 +47,12 @@ module.exports = {
             inline: false,
           },
           {
-            name: "Hashed? Message",
+            name: "Hashed Message",
             value: encryptedFinal,
             inline: true,
           },
           {
-            name: "Dehashed? Message",
+            name: "Dehashed Message",
             value: decryptedFinal,
             inline: true,
           },

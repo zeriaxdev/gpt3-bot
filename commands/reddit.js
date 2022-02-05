@@ -68,7 +68,7 @@ module.exports = {
             .setFooter(`u/${author} from r/${subreddit}`);
 
           sentMessage.edit({
-            content: "✅ Done!",
+            content: null,
             embeds: [funnyEmbed],
           });
         })
