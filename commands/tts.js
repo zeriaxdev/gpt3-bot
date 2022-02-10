@@ -7,7 +7,7 @@ module.exports = {
       sentMessage.edit(":gear: Processing..");
       sentMessage.edit(":gear: Processing...");
       try {
-        const msg = args.length > 0 ? args.join(" ") : "I'm happy!";
+        const msg = args.length > 0 ? args.join(" ") : "I'm so happy!";
 
         const url = `https://text-to-speech-demo.ng.bluemix.net/api/v3/synthesize?text=${msg}&download=true&accept=audio%2Fmp3`;
 

@@ -60,7 +60,7 @@ module.exports = {
             {
               name: `:flag_${langTo.toLowerCase()}:  ${getName(langTo)}`,
               value: `\`${
-                !(await translate(langFrom, langTo, msg))
+                (await translate(langFrom, langTo, msg)) === ""
                   ? "No translation available :("
                   : (await translate(langFrom, langTo, msg)).endsWith(".")
                   ? (await translate(langFrom, langTo, msg)).slice(

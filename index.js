@@ -6,6 +6,7 @@ const fetch = (...args) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
 // const mongoose = require("mongoose");
 const filter = require("leo-profanity");
+const { Configuration, OpenAIApi } = require("openai");
 // const { REST } = require("@discordjs/rest");
 // const { Routes } = require("discord-api-types/v9");
 
@@ -94,7 +95,8 @@ client.on("messageCreate", async (message) => {
 
   const user = message.mentions.members.first() || message.member;
 
-  if (!message.content.startsWith(config.prefix) || message.author.bot) return;
+  if (message.author.bot) return;
+  if (!message.content.startsWith(config.prefix)) return;
 
   const args = message.content.slice(config.prefix.length).split(/ +/);
   const commandName = args.shift().toLowerCase();

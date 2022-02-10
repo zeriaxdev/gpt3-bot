@@ -17,7 +17,7 @@ module.exports = {
         : args.join(" ");
 
       const nonce = Math.floor(Math.random() * 100000);
-      const path = "string";
+      const path = message.author.id;
       const privateKey = message.author.id;
       const hashDigest = sha256(nonce + message);
       const hmacDigest = Base64.stringify(
@@ -39,7 +39,7 @@ module.exports = {
           name: message.author.username,
           icon_url: message.author.displayAvatarURL(),
         },
-        title: "Encrypted Message",
+        title: "Encrypt",
         fields: [
           {
             name: "Original Message",
@@ -47,12 +47,12 @@ module.exports = {
             inline: false,
           },
           {
-            name: "Hashed Message",
+            name: "Encrypted Message",
             value: encryptedFinal,
             inline: true,
           },
           {
-            name: "Dehashed Message",
+            name: "Decrypted Message",
             value: decryptedFinal,
             inline: true,
           },
